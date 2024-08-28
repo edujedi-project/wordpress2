@@ -16,7 +16,6 @@ jobs:
         run: |
           echo "Variáveis de Ambiente:"
           printenv    
-      -
       - name: pull
         run: git pull
       - 
