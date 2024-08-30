@@ -1,35 +1,30 @@
 name: ci
-
 on:
   workflow_dispatch:
-
 jobs:
   CI:
     runs-on: self-hosted
-
+    strategy:
+      matrix:
+        test: [test-1, test-2, test-3, test-4]
     steps:
       - name: Export variavel
         run: |
           echo "Export variavel:" $GITHUB_RUN_NUMBER
-          
       - name: Exibir Variáveis de Ambiente
         run: |
           echo "Variáveis de Ambiente:"
-          printenv    
-      
+          printenv
       - name: pull
         run: |
           git pull
-      
       - name: Checkout
         uses: actions/checkout@v4
-      
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
