@@ -10,11 +10,8 @@ jobs:
         run: |
           # Comandos para iniciar instâncias EC2 na AWS
           aws ec2 run-instances \
-            --image-id ami-0492c59a1e706a648 \
+            --launch-template LaunchTemplateId=lt-0abcdefghijklmno1234567 \
             --count 3 \
-            --instance-type t2.micro \
-            --security-group-ids sg-0836793db530a7e5c \
-            --subnet-id subnet-86be2ab8 \
             --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHubRunner}]'
           # Adicione mais comandos conforme necessário para configurar as instâncias como runners
         shell: bash
