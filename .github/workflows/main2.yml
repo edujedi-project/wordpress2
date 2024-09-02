@@ -7,7 +7,7 @@ jobs:
     runs-on: self-hosted
     strategy:
       matrix:
-      max-parallel: 2
+        max-parallel: 2
         test: [test-1, test-2]
     steps:
       - name: sleep
