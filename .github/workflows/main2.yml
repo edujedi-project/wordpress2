@@ -3,6 +3,9 @@ on: push
 jobs:
   CI:
     runs-on: self-hosted
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
     strategy:
       max-parallel: 2
       matrix:
