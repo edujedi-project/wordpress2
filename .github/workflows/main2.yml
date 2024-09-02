@@ -6,6 +6,7 @@ jobs:
     strategy:
       matrix:
         test: [test-1, test-2, test-3]
+        max-parallel: 2
       parallel: true  
     steps:
       - name: sleep
