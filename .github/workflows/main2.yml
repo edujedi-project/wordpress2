@@ -1,7 +1,27 @@
 name: ci2
 on: push
+ 
 jobs:
+  setup-runners:
+    name: Setup Runners
+    runs-on: self-hosted
+    steps:
+      - name: Launch EC2 instances for runners
+        run: |
+          # Comandos para iniciar instâncias EC2 na AWS
+          aws ec2 run-instances \
+            --image-id ami-0492c59a1e706a648 \
+            --count 3 \
+            --instance-type t2.micro \
+            --security-group-ids sg-0836793db530a7e5c \
+            --subnet-id subnet-86be2ab8 \
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHubRunner}]'
+          # Adicione mais comandos conforme necessário para configurar as instâncias como runners
+        shell: bash
+ 
   CI:
+    name: CI Tests
+    needs: setup-runners
     runs-on: self-hosted
     strategy:
       matrix:
@@ -9,4 +29,16 @@ jobs:
     steps:
       - name: sleep
         run: sleep 300
+        shell: bash
+ 
+  teardown-runners:
+    name: Teardown Runners
+    runs-on: self-hosted
+    needs: CI
+    steps:
+      - name: Terminate EC2 instances
+        run: |
+          # Comandos para terminar as instâncias EC2
+          INSTANCE_IDS=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=GitHubRunner" --query "Reservations[*].Instances[*].InstanceId" --output text)
+          aws ec2 terminate-instances --instance-ids $INSTANCE_IDS
         shell: bash
