@@ -2,46 +2,14 @@ name: ci2
 on: push
  
 jobs:
-  setup-runners:
-    name: Setup Runners
-    runs-on: self-hosted
-    steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1   
-      - name: Launch EC2 instances for runners
-        run: |
-          # Comandos para iniciar instâncias EC2 na AWS
-          aws ec2 run-instances \
-            --launch-template LaunchTemplateId=lt-0de89b2c818e950ed \
-            --count 3 \
-            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHubRunner}]'
-          # Adicione mais comandos conforme necessário para configurar as instâncias como runners
-        shell: bash
- 
   CI:
     name: CI Tests
-    needs: setup-runners
     runs-on: self-hosted
     strategy:
       matrix:
-        test: [test-1, test-2, test-3]
+        max-parallel: 2
+        test: [test-1, test-2]
     steps:
       - name: sleep
         run: sleep 300
-        shell: bash
- 
-  teardown-runners:
-    name: Teardown Runners
-    runs-on: self-hosted
-    needs: CI
-    steps:
-      - name: Terminate EC2 instances
-        run: |
-          # Comandos para terminar as instâncias EC2
-          INSTANCE_IDS=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=GitHubRunner" --query "Reservations[*].Instances[*].InstanceId" --output text)
-          aws ec2 terminate-instances --instance-ids $INSTANCE_IDS
         shell: bash
