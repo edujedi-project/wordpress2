@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         test: [test-1, test-2, test-3]
-      max-parallel: 3 # Execute até 3 jobs simultaneamente
+      parallel: true
     steps:
       - name: sleep
         run: sleep 300
