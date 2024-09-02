@@ -7,7 +7,7 @@ jobs:
       group: ${{ github.ref }}
       cancel-in-progress: false
     strategy:
-      max-parallel: 2
+      max-parallel: 3
       matrix:
         test: [test-1, test-2, test-3]
     steps:
