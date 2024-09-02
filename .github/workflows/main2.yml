@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         test: [test-1, test-2, test-3]
-        max-parallel: 3  # Certifique-se de que esta linha esteja indentada corretamente
+      max-parallel: 3  # Certifique-se de que esta linha esteja indentada corretamente
     steps:
       - name: sleep
         run: sleep 300
