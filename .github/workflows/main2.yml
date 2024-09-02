@@ -6,6 +6,12 @@ jobs:
     name: Setup Runners
     runs-on: self-hosted
     steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1   
       - name: Launch EC2 instances for runners
         run: |
           # Comandos para iniciar instâncias EC2 na AWS
