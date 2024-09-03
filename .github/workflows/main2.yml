@@ -7,4 +7,6 @@ jobs:
       matrix:
         test: [test-1, test-2]
     steps:
-      - run: echo "Hello World!"
+      - name: sleep
+        run: sleep 300
+        shell: bash
