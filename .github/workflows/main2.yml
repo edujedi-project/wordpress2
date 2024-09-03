@@ -2,7 +2,7 @@ name: ci2
 on: workflow_dispatch
 jobs:
   CI:
-    runs-on: self-hosted
+    runs-on: codebuild-runner-github-action-${{ github.run_id }}-${{ github.run_attempt }}
     strategy:
       matrix:
         test: [test-1, test-2]
