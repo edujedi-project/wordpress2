@@ -1,5 +1,5 @@
 name: ci2
-on: workflow_dispatch
+on: push
 jobs:
   CI:
     runs-on: codebuild-runner-github-action-${{ github.run_id }}-${{ github.run_attempt }}
